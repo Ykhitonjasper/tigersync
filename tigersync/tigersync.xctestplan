@@ -1,0 +1,35 @@
+{
+  "configurations" : [
+    {
+      "id" : "24499A57-8A8C-49DD-9DF6-FD06943246D4",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:tigersync.xcodeproj",
+      "identifier" : "2BAE1BAEA4F5B11ECAEF6801",
+      "name" : "tigersync"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:tigersync.xcodeproj",
+        "identifier" : "8A1F20E5FC7AABF9FDBFB618",
+        "name" : "tigersyncTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:tigersync.xcodeproj",
+        "identifier" : "382181E70614EC4D0A4B30E0",
+        "name" : "tigersyncUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

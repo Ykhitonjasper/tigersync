@@ -1,0 +1,107 @@
+name: tigersync
+options:
+  bundleIdPrefix: com
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    TARGETED_DEVICE_FAMILY: "1,2"
+    CODE_SIGN_STYLE: Automatic
+
+packages:
+  AnalyticsKit:
+    path: Packages/AnalyticsKit
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk.git
+    from: "11.0.0"
+
+targets:
+  tigersync:
+    type: application
+    platform: iOS
+    sources:
+      - path: tigersync
+        excludes:
+          - "*.xctestplan"
+    resources:
+      - path: tigersync
+        includes:
+          - GoogleService-Info.plist
+    dependencies:
+      - package: AnalyticsKit
+      - package: Firebase
+        products:
+          - FirebaseCore
+    settings:
+      base:
+        PRODUCT_NAME: tigersync
+        PRODUCT_BUNDLE_IDENTIFIER: com.URIELALEJANDRORIOS.tigersync
+        PRODUCT_DISPLAY_NAME: tigersync
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: "$(PRODUCT_DISPLAY_NAME)"
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortrait
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown
+        CODE_SIGN_ENTITLEMENTS: Config/tigersync.entitlements
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        DEVELOPMENT_TEAM: L2FM598Q7R
+        ENABLE_PREVIEWS: YES
+        SWIFT_EMIT_LOC_STRINGS: YES
+    scheme:
+      testPlans:
+        - path: tigersync/tigersync.xctestplan
+          default: true
+
+  tigersyncTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - tigersyncTests
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.URIELALEJANDRORIOS.tigersync.tests
+        PRODUCT_MODULE_NAME: tigersyncTests
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/tigersync.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/tigersync"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        SWIFT_EMIT_LOC_STRINGS: NO
+    dependencies:
+      - target: tigersync
+
+  tigersyncUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - tigersyncUITests
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.URIELALEJANDRORIOS.tigersync.uitests
+        PRODUCT_MODULE_NAME: tigersyncUITests
+        TEST_TARGET_NAME: tigersync
+        SWIFT_EMIT_LOC_STRINGS: NO
+    dependencies:
+      - target: tigersync
+
+schemes:
+  tigersync:
+    build:
+      targets:
+        tigersync: all
+    test:
+      targets:
+        - tigersyncTests
+        - tigersyncUITests
+      testPlans:
+        - path: tigersync/tigersync.xctestplan
+          default: true
