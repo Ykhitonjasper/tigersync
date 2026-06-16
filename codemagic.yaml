@@ -4,19 +4,14 @@ workflows:
     max_build_duration: 120
     instance_type: mac_mini_m2
 
-    # Name must match "App Store Connect API key name" in Codemagic → Team integrations
-    integrations:
-      app_store_connect: tigersync
-
     environment:
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.URIELALEJANDRORIOS.tigersync
+      xcode: latest
+      groups:
+        - app_store_credentials
       vars:
         XCODE_PROJECT: tigersync.xcodeproj
         XCODE_SCHEME: tigersync
         BUNDLE_ID: com.URIELALEJANDRORIOS.tigersync
-      xcode: latest
 
     triggering:
       events:
@@ -32,13 +27,35 @@ workflows:
       - name: Generate Xcode project
         script: xcodegen generate
 
+      - name: Set up keychain for code signing
+        script: keychain initialize
+
+      - name: Require CERTIFICATE_PRIVATE_KEY
+        script: |
+          if [ -z "$CERTIFICATE_PRIVATE_KEY" ]; then
+            echo "Missing CERTIFICATE_PRIVATE_KEY in app_store_credentials."
+            exit 1
+          fi
+
+      - name: Fetch signing files
+        script: |
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create
+
+      - name: Add certificates to keychain
+        script: keychain add-certificates
+
       - name: Set up code signing
-        script: xcode-project use-profiles
+        script: |
+          xcode-project use-profiles \
+            --project "$CM_BUILD_DIR/$XCODE_PROJECT" \
+            --archive-method app-store
 
       - name: Build IPA
         script: |
           xcode-project build-ipa \
-            --project "$XCODE_PROJECT" \
+            --project "$CM_BUILD_DIR/$XCODE_PROJECT" \
             --scheme "$XCODE_SCHEME"
 
     artifacts:
@@ -47,5 +64,7 @@ workflows:
 
     publishing:
       app_store_connect:
-        auth: integration
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         submit_to_app_store: true
