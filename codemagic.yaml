@@ -4,6 +4,10 @@ workflows:
     max_build_duration: 120
     instance_type: mac_mini_m2
 
+    # Name must match "App Store Connect API key name" in Codemagic → Team integrations
+    integrations:
+      app_store_connect: tigersync
+
     environment:
       ios_signing:
         distribution_type: app_store
