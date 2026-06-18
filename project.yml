@@ -12,7 +12,7 @@ settings:
     IPHONEOS_DEPLOYMENT_TARGET: "17.0"
     MARKETING_VERSION: "1.0"
     CURRENT_PROJECT_VERSION: "1"
-    TARGETED_DEVICE_FAMILY: "1,2"
+    TARGETED_DEVICE_FAMILY: "1"
     CODE_SIGN_STYLE: Automatic
 
 packages:
@@ -41,6 +41,7 @@ targets:
           - FirebaseCore
     settings:
       base:
+        TARGETED_DEVICE_FAMILY: "1"
         PRODUCT_NAME: tigersync
         PRODUCT_BUNDLE_IDENTIFIER: com.URIELALEJANDRORIOS.tigersync
         PRODUCT_DISPLAY_NAME: tigersync
@@ -50,7 +51,7 @@ targets:
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortrait
-        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: UIInterfaceOrientationLandscapeRight UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown
+        INFOPLIST_KEY_UIDeviceFamily: "[1]"
         CODE_SIGN_ENTITLEMENTS: Config/tigersync.entitlements
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
